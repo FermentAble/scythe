@@ -31,7 +31,7 @@ rescue StandardError
 end
 
 def make_file(fn)
-  File.open(fn, 'w') { |_| }
+  File.open(fn, 'w') { |f| f << Time.now.to_i }
 end
 
 def record_probe(marker)
@@ -41,7 +41,8 @@ end
 
 def get_probe(file_name)
   Probe.new(File.basename(file_name, '.*'),
-            File.mtime(file_name).to_i)
+            File.mtime(file_name).to_i,
+            File.readlines(file_name).first.to_i)
 end
 
 def get_probes(dir)

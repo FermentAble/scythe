@@ -7,9 +7,10 @@ require 'date'
 class Probe
   attr_reader :name
 
-  def initialize(name, mod_date)
+  def initialize(name, mod_date, ctime)
     @name = name
     @mod_date = mod_date
+    @ctime = ctime
   end
 
   def days_silent?(date_now)
@@ -24,6 +25,9 @@ class Probe
   def seconds_silent?(date_now)
     check_epoch = Time.at(date_now)
     mod_epoch = Time.at(@mod_date)
+    ctime_epoch = Time.at(@ctime)
+
+    return -1 if mod_epoch == ctime_epoch
 
     [0, (check_epoch - mod_epoch)].max
   end
