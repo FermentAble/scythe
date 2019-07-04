@@ -1,33 +1,29 @@
-
+# frozen_string_literal: true
 
 require 'gatherer'
 
 describe Gatherer do
-
-  def gatherer_on text
+  def gatherer_on(text)
     Gatherer.new(text)
   end
 
   it 'gathers no markers from a reader' do
-    expect(gatherer_on("some text").markers)
+    expect(gatherer_on('some text').markers)
       .to eq([])
   end
 
   it 'gathers a parenthesized marker' do
-    expect(gatherer_on("scythe_probe(\"a\")").markers)
-      .to eq(["a"])
+    expect(gatherer_on('scythe_probe("a")').markers)
+      .to eq(['a'])
   end
 
   it 'gathers several parenthesized markers' do
-    expect(gatherer_on("scythe_probe(\"a_marker\") scythe_probe ( \"and_another_\" )\"").markers)
-      .to eq(["a_marker", "and_another_"])
+    expect(gatherer_on('scythe_probe("a_marker") scythe_probe ( "and_another_" )"').markers)
+      .to eq(%w[a_marker and_another_])
   end
 
- it 'gathers non-paren form of probe call' do
-   expect(gatherer_on("scythe_probe \"a_marker\"").markers)
-      .to eq(["a_marker"])
- end
-
-
+  it 'gathers non-paren form of probe call' do
+    expect(gatherer_on('scythe_probe "a_marker"').markers)
+      .to eq(['a_marker'])
+  end
 end
-

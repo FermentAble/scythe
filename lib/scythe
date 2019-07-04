@@ -1,39 +1,33 @@
 #!/usr/bin/env ruby
+# frozen_string_literal: true
 
-$:.unshift File.dirname(__FILE__)
+$LOAD_PATH.unshift File.dirname(__FILE__)
 
 require 'optparse'
 require 'gather_cmd'
 require 'delete_cmd'
 require 'status_cmd'
 
-
 OptionParser.new do |opts|
-  opts.banner = "Usage: scythe [options]"
+  opts.banner = 'Usage: scythe [options]'
 
-  opts.on("-g", 
-          "--gather <project-directory>", 
-          "gather probes from source code directory") do |dir|
+  opts.on('-g',
+          '--gather <project-directory>',
+          'gather probes from source code directory') do |dir|
     GatherCommand.new(dir, STDOUT, STDERR).run
   end
 
-
-  opts.on("-d",
-          "--delete <probe-name>",
-          "delete a probe") do |probe_name|
+  opts.on('-d',
+          '--delete <probe-name>',
+          'delete a probe') do |probe_name|
     DeleteCommand.new(probe_name, STDOUT, STDERR).run
   end
-          
-  opts.on("-s [secs | h]",
-          "--status [secs | hours]",
-          "shows the elapsed time since the last call for each probe (in days).",
-          "secs: show time in seconds", 
-          "hours: show time in hours") do |format|
-    StatusCommand.new(format || "", STDOUT, STDERR).run
+
+  opts.on('-s [secs | h]',
+          '--status [secs | hours]',
+          'shows the elapsed time since the last call for each probe (in days).',
+          'secs: show time in seconds',
+          'hours: show time in hours') do |format|
+    StatusCommand.new(format || '', STDOUT, STDERR).run
   end
-
 end.parse!
-
-
-
-

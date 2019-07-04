@@ -1,8 +1,9 @@
+# frozen_string_literal: true
 
-$:.unshift File.dirname(__FILE__)
+$LOAD_PATH.unshift File.dirname(__FILE__)
 
 class Gatherer
-  def initialize text
+  def initialize(text)
     @text = text
   end
 
@@ -11,8 +12,7 @@ class Gatherer
     parenless_form = Regexp.new('scythe_probe\s*\"(\w+)\"')
 
     [paren_form, parenless_form]
-      .map {|f| @text.scan(f) }
+      .map { |f| @text.scan(f) }
       .flatten
   end
-    
 end
